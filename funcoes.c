@@ -81,6 +81,11 @@ ERROS salvar(Tarefa tarefas[], int *pos){
     FILE *f = fopen("tarefas.bin", "wb");
     if(f == NULL)
         return ABRIR;
+    for(int i = 0; i < *pos; i++) {
+        tarefas[i].categoria[strcspn(tarefas[i].categoria, "\n")] = '\0';
+        tarefas[i].descricao[strcspn(tarefas[i].descricao, "\n")] = '\0';
+    }
+
 
     int qtd = fwrite(tarefas, TOTAL, sizeof(Tarefa), f);
     if(qtd == 0)
@@ -104,6 +109,10 @@ ERROS carregar(Tarefa tarefas[], int *pos){
     int qtd = fread(tarefas, TOTAL, sizeof(Tarefa), f);
     if(qtd == 0)
         return LER;
+    for(int i = 0; i < *pos; i++) {
+        tarefas[i].categoria[strcspn(tarefas[i].categoria, "\n")] = '\0';
+        tarefas[i].descricao[strcspn(tarefas[i].descricao, "\n")] = '\0';
+    }
 
     qtd = fread(pos, 1, sizeof(int), f);
     if(qtd == 0)
