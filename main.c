@@ -1,51 +1,38 @@
 #include <stdio.h>
-#include "funcoes.h"
-//o menu tem como funcao printar todas as opcoes e logo em seguida dependendo da escolha do usuario aplicar e colocar na tela a funcao desejada pelo cliente, uma funcao simples igual fizemos no banco de phyton porem a base para o banco funcionar 
-//meu listar cliente foi incrementado na funcao 7
-int main(){
-    int e;
-    printf("\nBem vindo ao Bancon");
-    printf("1 - novo cliente\n");
-    printf("2 - Apaga cliente\n");
-    printf("3 - debito\n");
-    printf("4 - deposito\n");
-    printf("5 - extrato\n");
-    printf("6 - transferência entre contas\n");
-    printf("7 - listar cliente\n");
-    printf("0 - sair\n");
-    scanf("%d", &e);
-    if (e == 1){
-        novo();
-        main();
-    }
-    else if (e ==2 ){
-        apagacliente();
-        main();
-    }
-    else if (e == 3){
-        debito();
-        main();
-    }
-    else if (e == 4){
-        deposito();
-        main();
-    }
-    else if (e == 5){
-        extrato();
-        main();
-    }
-    else if (e == 6){
-        transferencia();
-        main();
+#include "tarefas.h"
 
-    }
-    else if (e == 7){
-        listarcliente();
-        main();
+int main() {
+    funcao fs[] = {criar, deletar, listar, salvar, carregar};
 
-    }
-    else if (e == 0){
-        sair();
-        printf("Obrigado por usar o Banco ");
-    }
+    Tarefa tarefas[TOTAL];
+    int pos = 0; // Inicializa pos para evitar comportamento indefinido
+
+    ERROS erro = fs[4](tarefas, &pos);
+    if(erro != OK)
+        pos = 0;
+
+    int opcao;
+    do {
+        printf("\nMenu principal\n");
+        printf("1 - Criar tarefa\n");
+        printf("2 - Deletar tarefa\n");
+        printf("3 - Listar tarefas\n");
+        printf("0 - Sair\n");
+        printf("Escolha uma opcao: \n");
+
+        scanf("%d", &opcao);
+
+        if(opcao < 0 || opcao > 3) { // Corrigido o limite da condição
+            printf("Opcao invalida\n");
+        } else if(opcao > 0) { // Corrigida a verificação da opcao
+            fs[opcao - 1](tarefas, &pos); // Corrigida a indexação do array de funções
+        } else {
+            printf("Sair...\n");
+        }
+
+    } while(opcao != 0); // Corrigida a condição do loop
+
+    fs[3](tarefas, &pos);
+
+    return 0; // Adicionada a declaração de retorno para main
 }
