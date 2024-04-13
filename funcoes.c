@@ -185,3 +185,7 @@ ERROS carregar(Tarefa tarefas[], int *pos){
     return OK;
 
 }
+void clearBuffer(){
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
